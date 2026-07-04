@@ -92,8 +92,8 @@
                     <option value="soil-clay" data-lang-key="soil_clay">رس</option>
                 </select>
             </section>
-             <section id="image-analysis-section" style="display: none;">
-                <h2 data-lang-key="image_analysis_title">Image-Based Analysis for Crusher</h2>
+             <section id="image-analysis-section" style="display: block;">
+                <h2 data-lang-key="image_analysis_title">Image-Based Analysis</h2>
 
                 <div id="image-analysis-guide" style="background-color: var(--primary-bg-color); padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid var(--border-color);">
                     <h3 data-lang-key="guide_title" style="margin-top: 0; color: var(--secondary-accent-color);">Image Capture Guide</h3>
@@ -338,13 +338,9 @@
                 `;
                 sieveTableBody.appendChild(panRow);
 
-                // Show/hide image analysis section
+                // Image analysis section is now always visible for all materials
                 const imageAnalysisSection = document.getElementById('image-analysis-section');
-                if (selectedMaterial === 'crushed-rock') {
-                    imageAnalysisSection.style.display = 'block';
-                } else {
-                    imageAnalysisSection.style.display = 'none';
-                }
+                imageAnalysisSection.style.display = 'block';
             }
 
             addRowBtn.addEventListener('click', () => addSieveRow());
@@ -501,10 +497,16 @@
             });
 
             processImageBtn.addEventListener('click', () => {
-                if (!cvIsReady || !loadedImage) {
-                    alert("OpenCV is not ready or no image is loaded.");
+                if (!loadedImage) {
+                    alert("No image is loaded. Please upload an image or use the camera first.");
                     return;
                 }
+                
+                // Wait for OpenCV to be ready, but don't block if it's not
+                if (!cvIsReady) {
+                    console.warn("OpenCV.js is not ready yet. Attempting to process anyway...");
+                }
+                
                 const realDiameter = parseFloat(referenceDiameterInput.value);
                 if (isNaN(realDiameter) || realDiameter <= 0) {
                     alert("Please enter a valid diameter for the reference object.");
