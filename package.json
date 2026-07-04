@@ -1,0 +1,47 @@
+{
+  "name": "grain-size-analyzer",
+  "version": "2.0.0",
+  "description": "Grain Size Distribution Analysis Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "author": "Grain Size Analyzer Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.grainsize.analyzer",
+    "productName": "Grain Size Analyzer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "script.js",
+      "style.css",
+      "cv-worker.js",
+      "main.js",
+      "preload.js",
+      "fonts/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "icon.png"
+    }
+  }
+}
